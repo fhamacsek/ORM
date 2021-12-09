@@ -300,9 +300,8 @@ public class ServerORM {
 
 
                     //TO DO Get the available amount for article article_id
-                    Articles art = ses.createQuery( "FROM Articles WHERE Articles.id = " + article_id, Articles.class )
-                            .list()
-                            .get( 0 );
+                    Articles art = ses.createQuery( "FROM Articles A WHERE A.id = " + article_id, Articles.class )
+                            .getSingleResult();
 
                     if( art.getAmount() < amount ) {
 
