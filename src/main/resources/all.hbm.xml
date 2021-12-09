@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping SYSTEM "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="model">
+    <class name="Articles" table="articles">
+        <id name="id"/>
+        <property name="description"/>
+        <property name="price"/>
+        <property name="amount"/>
+    </class>
+    <class name="Clients" table="clients">
+        <id name="id" type="int" column="id"/>
+        <property name="name" type="string" column="name"/>
+        <property name="address" type="string" column="address"/>
+        <property name="city" type="string" column="city"/>
+        <property name="country" type="string" column="country"/>
+    </class>
+    <class name="Orders" table="orders">
+        <id name="id"/>
+        <many-to-one name="client" class="Clients" fetch="join">
+            <column name="client_id"/>
+        </many-to-one>
+        <property name="created_at"/>
+        <set name="OrderLines" table="order_lines" inverse="false" lazy="true">
+            <key>
+                <column name="order_id"/>
+            </key>
+            <one-to-many class="OrderLines"/>
+        </set>
+    </class>
+    <class name="OrderLines" table="order_lines">
+        <id name="id"/>
+        <many-to-one name="article" class="Articles" fetch="join">
+            <column name="article_id"/>
+        </many-to-one>
+        <many-to-one name="order" class="Orders" fetch="join">
+            <column name="order_id"/>
+        </many-to-one>
+        <property name="amount"/>
+    </class>
+</hibernate-mapping>
